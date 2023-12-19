@@ -14,9 +14,9 @@ This app does not require any user interaction, just open and watch out for bird
 
 ### Screenshots
 
-![Splash Screen](./Screenshots/SplashScreen.jpg)
-![Home Screen (Location Approved)](./Screenshots/HomeReqApp.jpg)
-![Home Screen](./Screenshots/Home.jpg)
-![Location Request](./Screenshots/LoactionRequest.jpg)
-![Acceleration Upwards](./Screenshots/AccUp.jpg)
-![Acceleration Downwards](./Screenshots/AccDown.jpg)
+![Splash Screen](./ScreenShots/SplashScreen.jpg)
+![Home Screen (Location Approved)](./ScreenShots/HomeReqApp.jpg)
+![Home Screen](./ScreenShots/Home.jpg)
+![Location Request](./ScreenShots/LoactionRequest.jpg)
+![Acceleration Upwards](./ScreenShots/AccUp.jpg)
+![Acceleration Downwards](./ScreenShots/AccDown.jpg)
