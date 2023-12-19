@@ -2,14 +2,17 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Accelerometer } from "expo-sensors";
 import Sounds from "./Sounds";
+import { useDispatch, useSelector } from "react-redux";
+import { setAdjustedY, setDirection } from "../Redux/accelerometerSlice";
 
 export default function AccelerometerComponent() {
+  const adjustedY = useSelector((state) => state.accelerationData.adjustedY);
+  const direction = useSelector((state) => state.accelerationData.direction);
+  const dispatch = useDispatch();
   const [{ y }, setData] = useState({
     y: 0,
   });
-  const [adjustedY, setAdjustedY] = useState(0);
   const [subscription, setSubscription] = useState(null);
-  const [direction, setDirection] = useState("steady");
 
   const _subscribe = () => {
     setSubscription(Accelerometer.addListener(setData));
@@ -21,10 +24,10 @@ export default function AccelerometerComponent() {
   };
 
   useEffect(() => {
-    setAdjustedY(y.toFixed(2));
-    if (adjustedY <= -0.5) setDirection("accelerating downwards");
-    else if (adjustedY >= 0.5) setDirection("accelerating upwards");
-    else setDirection("steady");
+    dispatch(setAdjustedY(y.toFixed(2)));
+    if (adjustedY <= -0.5) dispatch(setDirection("accelerating downwards"));
+    else if (adjustedY >= 0.5) dispatch(setDirection("accelerating upwards"));
+    else dispatch(setDirection("steady"));
   }, [y]);
 
   useEffect(() => {
@@ -32,49 +35,49 @@ export default function AccelerometerComponent() {
     return () => _unsubscribe();
   }, []);
 
+  const currentColor =
+    direction === "accelerating downwards"
+      ? "#ff3500"
+      : direction === "accelerating upwards"
+      ? "#00ff27"
+      : "white";
+
+  const onDirectionChangeStyle = {
+    color: currentColor,
+    borderColor: currentColor,
+    fontSize: direction === "steady" ? 50 : 60,
+    backgroundColor: direction === "steady" ? "transparent" : "#040000",
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Acceleration: {adjustedY}m/s²</Text>
-      <Text style={styles.text}>
-        You are currently{" "}
-        {direction === "accelerating upwards"
-          ? direction + "🛫"
-          : direction === "accelerating downwards"
-          ? direction + "🛬"
-          : direction}
-      </Text>
-      <Sounds direction={direction} />
-      <Text
-        style={[
-          styles.text,
-          styles.plane,
-          {
-            transform: [{ rotate: `${adjustedY * 90}deg` }],
-          },
-        ]}
-      >
-        {"<<<<<<<<"}
-      </Text>
+    <View style={[styles.container, onDirectionChangeStyle]}>
+      <Text style={styles.heading}>Acceleration:</Text>
+      <Text style={[styles.text, onDirectionChangeStyle]}>{adjustedY}m/s²</Text>
+      <Sounds />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
-    paddingHorizontal: 20,
+    borderColor: "white",
+    borderWidth: 1,
+    width: 300,
+    height: 200,
+    zIndex: 10,
+    marginTop: 10,
+    borderRadius: 30,
   },
   text: {
     textAlign: "center",
-    fontSize: 16,
-    margin: 5,
+    margin: 10,
+    fontSize: 50,
   },
-  plane: {
-    borderColor: "black",
-    width: 190,
-    height: 41,
-    borderWidth: 1,
-    margin: 100,
+  heading: {
+    fontSize: 18,
+    textAlign: "center",
+    color: "white",
+    textDecorationLine: "underline",
   },
 });

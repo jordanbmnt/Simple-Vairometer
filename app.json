@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Simple Vario",
-    "slug": "simple-vario",
+    "name": "Simple Variometer",
+    "slug": "my-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000110"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -18,11 +18,19 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#0000110"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow Simple Variometer to use your location."
+        }
+      ]
+    ]
   }
 }

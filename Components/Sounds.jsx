@@ -1,7 +1,11 @@
 import { Audio } from "expo-av";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-export default function Sounds({ direction }) {
+export default function Sounds() {
+  const up = require(`../assets/Sounds/up.wav`);
+  const down = require(`../assets/Sounds/down.wav`);
+  const direction = useSelector((state) => state.accelerationData.direction);
   const [sound, setSound] = useState();
 
   function stopSound() {
@@ -9,8 +13,6 @@ export default function Sounds({ direction }) {
   }
 
   async function playSound() {
-    const up = require(`../assets/Sounds/up.wav`);
-    const down = require(`../assets/Sounds/down.wav`);
     const soundDirection = direction === "accelerating upwards" ? up : down;
     const { sound } = await Audio.Sound.createAsync(
       soundDirection,
